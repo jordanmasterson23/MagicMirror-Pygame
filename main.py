@@ -2,21 +2,24 @@
 
 import pygame as pg
 from os import path
-import random, requests, time
+import random, requests, time, calendar
+from datetime import date
 from newsapi.newsapi_client import NewsApiClient
 
-WIDTH = 1920
-HEIGHT = 1080
-
+# - Screen resolution & Colors
+WIDTH = 1280
+HEIGHT = 960
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-# - Location Settings
+# - Preferences
 CITY = 'Centennial'
 STATE = 'CO'
 COUNTRY = 'us'
 FONT_NAME = 'arial.ttf'
 NEWS_SOURCE = 'ign'
+
+# - API Keys
 NEWS_KEY = 'paste-key-here'
 WEATHER_KEY = 'paste-key-here'
 
@@ -56,7 +59,6 @@ class MagicMirror:
         font_dir = path.join(self.home, 'fonts')
         self.news_font = path.join(font_dir, FONT_NAME)
 
-
     def new(self):
         self.get_news(NEWS_SOURCE)
         self.get_weather(CITY, STATE, COUNTRY)
@@ -71,6 +73,8 @@ class MagicMirror:
             self.get_weather(CITY, STATE, COUNTRY)
 
     def dig_watch(self):
+        self.today = date.today()
+        self.weekday = calendar.day_name[self.today.weekday()]
         self.time_string = time.strftime('%H:%M:%S')
         if int(self.time_string[0:2]) < 12:
             self.time_string = str(time.strftime('%I:%M')) + ' AM'
@@ -83,7 +87,6 @@ class MagicMirror:
         self.all_headlines = self.all_news
         self.snips = (self.all_headlines['articles'])
         rand_headline = random.randint(0, 9)
-        print(rand_headline)
         self.headline = self.snips[rand_headline]
 
     def get_weather(self, city, state, country):
@@ -98,7 +101,9 @@ class MagicMirror:
     def draw(self):
         self.screen.fill(BLACK)
         # - Display Clock
-        draw_text(self, self.time_string, self.news_font, 65, WHITE, WIDTH * .98, HEIGHT * .02, align='ne')
+        draw_text(self, self.weekday, self.news_font, 28, WHITE, WIDTH * .98, HEIGHT * .02, align='ne')
+        draw_text(self, self.today.strftime('%b %d, %Y'), self.news_font, 20, WHITE, WIDTH * .98, HEIGHT * .06, align='ne')
+        draw_text(self, self.time_string, self.news_font, 45, WHITE, WIDTH * .98, HEIGHT * .09, align='ne')
         # - Display News
         draw_text(self, self.headline['title'], self.news_font, 30, WHITE, WIDTH * .5, HEIGHT * .95, align='center')
         # - Display Weather

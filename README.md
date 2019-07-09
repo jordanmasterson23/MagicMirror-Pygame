@@ -16,6 +16,7 @@ FUTURE PLANS:
  - Facial Recognition for multiple users
  
 SETUP:
+1. Install pygame and newsapi-python modules.
 1. Set the WIDTH and HEIGHT variables to your screens resolution
 2. Get Weather API Key from - https://home.openweathermap.org
     - Sign up for free account

@@ -51,12 +51,13 @@ def draw_text(self, text, font_name, size, color, x, y, align="nw"):
 class MagicMirror:
     def __init__(self):
         pg.init()
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT), pg.FULLSCREEN)
+        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.load_data()
 
     def load_data(self):
         self.home = path.dirname(__file__)
         font_dir = path.join(self.home, 'fonts')
+        self.icon_dir = path.join(self.home, 'icons')
         self.news_font = path.join(font_dir, FONT_NAME)
 
     def new(self):
@@ -92,23 +93,48 @@ class MagicMirror:
     def get_weather(self, city, state, country):
         self.city = city
         self.state = state
-        self.r = requests.get(
+        self.temp_data = requests.get(
             'http://api.openweathermap.org/data/2.5/weather?q=' + self.city + ',' + country + '&units=imperial&APPID=' + WEATHER_KEY)
-        self.json = self.r.json()
+        # - Get Temperature
+        self.json = self.temp_data.json()
         self.raw_temp = (self.json['main'])
         self.temp = str(self.raw_temp['temp'])[0:2]
+        # - Get Conditions for Weather Icon
+        self.tmp_cond = (self.json['weather'])
+        self.condition = self.tmp_cond[0]
+        self.icon_id = self.condition['id']
+        if self.icon_id >= 200 and self.icon_id <= 232:
+            self.cond_icon = '11d.png'
+        if self.icon_id >= 300 and self.icon_id <= 321:
+            self.cond_icon = '09d.png'
+        if self.icon_id >= 500 and self.icon_id <= 531:
+            self.cond_icon = '10d.png'
+        if self.icon_id >= 600 and self.icon_id <= 622:
+            self.cond_icon = '13d.png'
+        if self.icon_id >= 701 and self.icon_id <= 781:
+            self.cond_icon = '50d.png'
+        if self.icon_id == 800:
+            self.cond_icon = '01d.png'
+        if self.icon_id >= 801:
+            self.cond_icon = '02d.png'
+        if self.icon_id >= 802:
+            self.cond_icon = '03d.png'
+        if self.icon_id >= 803 and self.icon_id <= 804:
+            self.cond_icon = '04d.png'
+        self.icon_img = pg.image.load(path.join(self.icon_dir, self.cond_icon)).convert_alpha()
 
     def draw(self):
         self.screen.fill(BLACK)
         # - Display Clock
         draw_text(self, self.weekday, self.news_font, 28, WHITE, WIDTH * .98, HEIGHT * .02, align='ne')
-        draw_text(self, self.today.strftime('%b %d, %Y'), self.news_font, 20, WHITE, WIDTH * .98, HEIGHT * .06, align='ne')
-        draw_text(self, self.time_string, self.news_font, 45, WHITE, WIDTH * .98, HEIGHT * .09, align='ne')
+        draw_text(self, self.today.strftime('%b %d, %Y'), self.news_font, 20, WHITE, WIDTH * .98, HEIGHT * .05, align='ne')
+        draw_text(self, self.time_string, self.news_font, 45, WHITE, WIDTH * .98, HEIGHT * .07, align='ne')
         # - Display News
         draw_text(self, self.headline['title'], self.news_font, 30, WHITE, WIDTH * .5, HEIGHT * .95, align='center')
-        # - Display Weather
+        # - Display Weather Info
         draw_text(self, self.city + ', ' + self.state, self.news_font, 20, WHITE, WIDTH * .02, HEIGHT * .02, align='nw')
-        draw_text(self, self.temp + '°', self.news_font, 70, WHITE, WIDTH * .02, HEIGHT * .04, align='nw')
+        draw_text(self, self.temp + '°', self.news_font, 90, WHITE, WIDTH * .02, HEIGHT * .04, align='nw')
+        self.screen.blit(self.icon_img, (WIDTH * .13, HEIGHT * .04))
         pg.display.flip()
 
     def run(self):

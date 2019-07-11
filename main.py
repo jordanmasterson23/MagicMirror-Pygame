@@ -7,8 +7,8 @@ from datetime import date
 from newsapi.newsapi_client import NewsApiClient
 
 # - Screen resolution & Colors
-WIDTH = 1280
-HEIGHT = 960
+WIDTH = 1920
+HEIGHT = 1080
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
@@ -51,7 +51,7 @@ def draw_text(self, text, font_name, size, color, x, y, align="nw"):
 class MagicMirror:
     def __init__(self):
         pg.init()
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pg.display.set_mode((WIDTH, HEIGHT), pg.FULLSCREEN)
         self.load_data()
 
     def load_data(self):
@@ -126,15 +126,17 @@ class MagicMirror:
     def draw(self):
         self.screen.fill(BLACK)
         # - Display Clock
-        draw_text(self, self.weekday, self.news_font, 28, WHITE, WIDTH * .98, HEIGHT * .02, align='ne')
-        draw_text(self, self.today.strftime('%b %d, %Y'), self.news_font, 20, WHITE, WIDTH * .98, HEIGHT * .05, align='ne')
-        draw_text(self, self.time_string, self.news_font, 45, WHITE, WIDTH * .98, HEIGHT * .07, align='ne')
+        draw_text(self, self.weekday, self.news_font, 40, WHITE, WIDTH * .98, HEIGHT * .02, align='ne')
+        draw_text(self, self.today.strftime('%b %d, %Y'), self.news_font, 25, WHITE, WIDTH * .96, HEIGHT * .045, align='ne')
+        draw_text(self, self.time_string, self.news_font, 60, WHITE, WIDTH * .98, HEIGHT * .06, align='ne')
         # - Display News
-        draw_text(self, self.headline['title'], self.news_font, 30, WHITE, WIDTH * .5, HEIGHT * .95, align='center')
+        draw_text(self, self.headline['title'][:50], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .93, align='center')
+        draw_text(self, self.headline['title'][50:], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .95,
+                  align='center')
         # - Display Weather Info
-        draw_text(self, self.city + ', ' + self.state, self.news_font, 20, WHITE, WIDTH * .02, HEIGHT * .02, align='nw')
-        draw_text(self, self.temp + '°', self.news_font, 90, WHITE, WIDTH * .02, HEIGHT * .04, align='nw')
-        self.screen.blit(self.icon_img, (WIDTH * .13, HEIGHT * .04))
+        draw_text(self, self.city + ', ' + self.state, self.news_font, 32, WHITE, WIDTH * .02, HEIGHT * .02, align='nw')
+        draw_text(self, self.temp + '°', self.news_font, 100, WHITE, WIDTH * .02, HEIGHT * .04, align='nw')
+        self.screen.blit(self.icon_img, (WIDTH * .15, HEIGHT * .04))
         pg.display.flip()
 
     def run(self):

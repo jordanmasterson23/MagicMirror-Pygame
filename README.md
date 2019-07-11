@@ -3,7 +3,7 @@ Created By: Jordan Masterson
 
 This is a Magic Mirror project scripted in Python using the Pygame module.
 
-NOTE:  This is still in development. It is very basic at the moment but I will continue to add more features.
+NOTE:  This is designed for a 1080 X 1920 resolution set to portrait mode. It is very basic at the moment but I will continue to add more features.
 
 CURRENT FEATURES:
  - Displays Current Temperature and Condition Icon for set location
@@ -19,7 +19,7 @@ FUTURE FEATURES:
  
 SETUP:
 1. Install pygame, pillow and newsapi-python modules.
-2. Set the WIDTH and HEIGHT variables to your screens resolution
+2. Set the WIDTH and HEIGHT variables to your screens resolution (1080w X 1920h is what this is designed for). Ensure your display is set to Portrait mode (Hotdog style!).
 3. Get Weather API Key from - https://home.openweathermap.org
     - Sign up for free account
     - Paste the API Key over the 'paste-key-here' in the WEATHER_KEY variable

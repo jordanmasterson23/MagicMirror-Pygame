@@ -12,7 +12,6 @@ CURRENT FEATURES:
  
 FUTURE FEATURES:
  - Calender widget
- - Fix headline display for longer headlines
  - New algorithm to resize font depending on screen resolution
  - Changeable borders
  - Facial Recognition for multiple users

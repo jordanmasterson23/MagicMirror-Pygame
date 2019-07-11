@@ -7,8 +7,8 @@ from datetime import date
 from newsapi.newsapi_client import NewsApiClient
 
 # - Screen resolution & Colors
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 1080
+HEIGHT = 1920
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
@@ -130,9 +130,11 @@ class MagicMirror:
         draw_text(self, self.today.strftime('%b %d, %Y'), self.news_font, 25, WHITE, WIDTH * .96, HEIGHT * .045, align='ne')
         draw_text(self, self.time_string, self.news_font, 60, WHITE, WIDTH * .98, HEIGHT * .06, align='ne')
         # - Display News
-        draw_text(self, self.headline['title'][:50], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .93, align='center')
-        draw_text(self, self.headline['title'][50:], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .95,
-                  align='center')
+        self.split = 56
+        while self.headline['title'][self.split] != ' ':
+            self.split = self.split - 1
+        draw_text(self, self.headline['title'][:self.split], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .93, align='center')
+        draw_text(self, self.headline['title'][self.split:], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .95, align='center')
         # - Display Weather Info
         draw_text(self, self.city + ', ' + self.state, self.news_font, 32, WHITE, WIDTH * .02, HEIGHT * .02, align='nw')
         draw_text(self, self.temp + '°', self.news_font, 100, WHITE, WIDTH * .02, HEIGHT * .04, align='nw')

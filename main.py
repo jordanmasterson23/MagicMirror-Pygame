@@ -16,8 +16,9 @@ WHITE = (255, 255, 255)
 CITY = 'Centennial'
 STATE = 'CO'
 COUNTRY = 'us'
-FONT_NAME = 'arial.ttf'
-NEWS_SOURCE = 'fox-news'
+MAIN_FONT = 'arial.ttf'
+NEWS_FONT = 'OldNewspaperTypes.ttf'
+NEWS_SOURCE = ['fox-news', 'ign', 'nfl-news', 'national-geographic']
 
 # - API Keys
 NEWS_KEY = 'paste-key-here'
@@ -50,19 +51,21 @@ class MagicMirror:
         self.home = path.dirname(__file__)
         font_dir = path.join(self.home, 'fonts')
         self.icon_dir = path.join(self.home, 'icons')
-        self.news_font = path.join(font_dir, FONT_NAME)
+        self.main_font = path.join(font_dir,  MAIN_FONT)
+        self.news_font = path.join(font_dir,  NEWS_FONT)
 
     def new(self):
-        self.get_news(NEWS_SOURCE)
+        self.get_news(NEWS_SOURCE[0])
         self.get_weather(CITY, STATE, COUNTRY)
         self.timer = 0
         self.run()
 
     def refresh(self):
         now = pg.time.get_ticks()
-        if now - self.timer > 7000:
+        rand_source = random.randint(0,3)
+        if now - self.timer > 10000:
             self.timer = now
-            self.get_news(NEWS_SOURCE)
+            self.get_news(NEWS_SOURCE[rand_source])
             self.get_weather(CITY, STATE, COUNTRY)
 
     def dig_watch(self):
@@ -78,9 +81,12 @@ class MagicMirror:
         NEWS_API = NewsApiClient(api_key=NEWS_KEY)
         self.all_news = NEWS_API.get_top_headlines(sources=src)
         self.all_headlines = self.all_news
-        self.snips = (self.all_headlines['articles'])
+        self.snips = self.all_headlines['articles']
         rand_headline = random.randint(0, 9)
         self.headline = self.snips[rand_headline]
+        self.source = self.headline['source']
+        self.author = self.headline['author']
+        self.news_name = self.source['name']
 
     def get_weather(self, city, state, country):
         self.city = city
@@ -119,30 +125,32 @@ class MagicMirror:
         self.screen.fill(BLACK)
 
         # - Display Clock
-        draw_text(self, self.weekday, self.news_font, 50, WHITE, WIDTH * .98, HEIGHT * .02, align='ne')
-        draw_text(self, self.today.strftime('%b %d, %Y'), self.news_font, 25, WHITE, WIDTH * .95, HEIGHT * .047, align='ne')
-        draw_text(self, self.time_string, self.news_font, 65, WHITE, WIDTH * .98, HEIGHT * .06, align='ne')
+        draw_text(self, self.weekday, self.main_font, 50, WHITE, WIDTH * .98, HEIGHT * .02, align='ne')
+        draw_text(self, self.today.strftime('%b %d, %Y'), self.main_font, 25, WHITE, WIDTH * .95, HEIGHT * .047, align='ne')
+        draw_text(self, self.time_string, self.main_font, 65, WHITE, WIDTH * .98, HEIGHT * .06, align='ne')
 
         # - Display News
+        draw_text(self, 'TOP NEWS STORIES', self.news_font, 53, WHITE, WIDTH * .5, HEIGHT * .87, align='center')
+        draw_text(self, '-' + self.news_name + '-', self.news_font, 30, WHITE, WIDTH * .5, HEIGHT * .895, align='center')
         self.split = 50
         if len(self.headline['title']) > self.split:
             while self.headline['title'][self.split] != ' ':
                 self.split = self.split - 1
-            draw_text(self, self.headline['title'][:self.split], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .93, align='center')
+            draw_text(self, self.headline['title'][:self.split], self.main_font, 40, WHITE, WIDTH * .5, HEIGHT * .92, align='center')
             self.split2 = self.split * 2
             if len(self.headline['title']) > self.split2:
                 while self.headline['title'][self.split2] != ' ':
                     self.split2 = self.split2 - 2
-                draw_text(self, self.headline['title'][self.split:self.split2], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .95, align='center')
-                draw_text(self, self.headline['title'][self.split2:], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .97, align='center')
+                draw_text(self, self.headline['title'][self.split:self.split2], self.main_font, 40, WHITE, WIDTH * .5, HEIGHT * .94, align='center')
+                draw_text(self, self.headline['title'][self.split2:], self.main_font, 40, WHITE, WIDTH * .5, HEIGHT * .96, align='center')
             else:
-                draw_text(self, self.headline['title'][self.split:], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .95, align='center')
+                draw_text(self, self.headline['title'][self.split:], self.main_font, 40, WHITE, WIDTH * .5, HEIGHT * .94, align='center')
         else:
-            draw_text(self, self.headline['title'], self.news_font, 40, WHITE, WIDTH * .5, HEIGHT * .93, align='center')
+            draw_text(self, self.headline['title'], self.main_font, 40, WHITE, WIDTH * .5, HEIGHT * .92, align='center')
 
         # - Display Weather Info
-        draw_text(self, self.city + ', ' + self.state, self.news_font, 32, WHITE, WIDTH * .02, HEIGHT * .02, align='nw')
-        draw_text(self, self.temp + '°', self.news_font, 100, WHITE, WIDTH * .02, HEIGHT * .04, align='nw')
+        draw_text(self, self.city + ', ' + self.state, self.main_font, 32, WHITE, WIDTH * .02, HEIGHT * .02, align='nw')
+        draw_text(self, self.temp + '°', self.main_font, 100, WHITE, WIDTH * .02, HEIGHT * .04, align='nw')
         self.screen.blit(self.icon_img, (WIDTH * .15, HEIGHT * .04))
         pg.display.flip()
 

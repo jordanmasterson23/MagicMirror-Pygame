@@ -3,7 +3,7 @@ Created By: Jordan Masterson
 
 This is a Magic Mirror project scripted in Python using the Pygame module.
 
-NOTE:  This is designed for a 1080 X 1920 resolution set to portrait mode. It is very basic at the moment but I will continue to add more features.
+NOTE:  This is designed for a 1080 X 1920 resolution set to portrait mode.  
 
 CURRENT FEATURES:
  - Displays Current Temperature and Condition Icon for set location
@@ -13,7 +13,6 @@ CURRENT FEATURES:
 FUTURE FEATURES:
  - Calender widget
  - New algorithm to resize font depending on screen resolution
- - Changeable borders
  - Facial Recognition for multiple users
  
 SETUP:
@@ -26,7 +25,7 @@ SETUP:
     - Sign up for free account
     - Paste the API Key over the 'paste-key-here' in the NEWS_KEY variable
 5. Set your CITY, STATE and COUNTRY variables (Ex: 'Los Angeles', 'CA', 'us')
-6. Set your desired NEWS_SOURCE variable.  You can get this from https://newsapi.org/sources
+6. Set your desired sources NEWS_SOURCE list.  You can get these from https://newsapi.org/sources
 
 NOTES: 
 You also have the ability to add whatever font you want. Just copy any '.ttf' file into the fonts directory 

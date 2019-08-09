@@ -14,6 +14,8 @@ FUTURE FEATURES:
  - Calender widget
  - New algorithm to resize font depending on screen resolution
  - Facial Recognition for multiple users
+
+![alt text](https://i.imgur.com/m0PiCoL.png)
  
 SETUP:
 1. Install pygame, pillow and newsapi-python modules.

@@ -1,7 +1,7 @@
 # Pygame Magic Mirror 
 Created By: Jordan Masterson
 
-This is a Magic Mirror project scripted in Python using the Pygame module.
+This is a Magic Mirror project scripted in Python using the Pygame, Requests, and NewsApi modules.
 
 NOTE:  This is designed for a 1080 X 1920 resolution set to portrait mode.  
 
@@ -9,14 +9,14 @@ CURRENT FEATURES:
  - Displays Current Temperature and Condition Icon for set location
  - 12 Hour Digital Clock and Date
  - Top 10 news headlines that cycle every 7 seconds
+
+![alt text](https://i.imgur.com/m0PiCoL.png)
  
 FUTURE FEATURES:
  - Calender widget
  - New algorithm to resize font depending on screen resolution
  - Facial Recognition for multiple users
 
-![alt text](https://i.imgur.com/m0PiCoL.png)
- 
 SETUP:
 1. Install pygame, pillow and newsapi-python modules.
 2. Set the WIDTH and HEIGHT variables to your screens resolution (1080w X 1920h is what this is designed for). Ensure your display is set to Portrait mode (Hotdog style!).

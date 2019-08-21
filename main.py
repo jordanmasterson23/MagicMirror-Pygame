@@ -21,8 +21,8 @@ NEWS_FONT = 'OldNewspaperTypes.ttf'
 NEWS_SOURCE = ['fox-news', 'ign', 'nfl-news', 'national-geographic']
 
 # - API Keys
-NEWS_KEY = '47672ad3ef5448798e93c0eaf609a3e0'
-WEATHER_KEY = 'ed7d99a2ff8547d8a72cdef84d719424'
+NEWS_KEY = 'paste-key-here'
+WEATHER_KEY = 'paste-key-here'
 
 def draw_text(self, text, font_name, size, color, x, y, align="nw"):
     pg.font.init()

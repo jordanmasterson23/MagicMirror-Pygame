@@ -92,7 +92,7 @@ class MagicMirror:
         self.city = city
         self.state = state
         self.temp_data = requests.get(
-            'http://api.openweathermap.org/data/2.5/weather?q=' + self.city + ',' + country + '&units=imperial&APPID=' + WEATHER_KEY)
+            'http://api.openweathermap.org/data/2.5/weather?q={},{}&units=imperial&APPID={}'.format(self.city, country, WEATHER_KEY))
         # - Get Temperature
         self.json = self.temp_data.json()
         self.raw_temp = (self.json['main'])
@@ -106,7 +106,7 @@ class MagicMirror:
         if self.icon_id >= 300 and self.icon_id <= 321:
             self.cond_icon = '09d.png'
         if self.icon_id >= 500 and self.icon_id <= 531:
-            self.cond_icon = '10d.png'
+            self.cond_icon = '10d.png' 
         if self.icon_id >= 600 and self.icon_id <= 622:
             self.cond_icon = '13d.png'
         if self.icon_id >= 701 and self.icon_id <= 781:

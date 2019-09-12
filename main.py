@@ -7,8 +7,8 @@ from datetime import date
 from newsapi.newsapi_client import NewsApiClient
 
 # - Screen resolution & Colors
-WIDTH = 1080
-HEIGHT = 1920
+WIDTH = 540
+HEIGHT = 960
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
@@ -18,11 +18,17 @@ STATE = 'CO'
 COUNTRY = 'us'
 MAIN_FONT = 'arial.ttf'
 NEWS_FONT = 'OldNewspaperTypes.ttf'
-NEWS_SOURCE = ['entertainment-weekly', 'fox-news', 'ign', 'nfl-news', 'national-geographic']
+NEWS_SOURCE = [
+               'entertainment-weekly',
+               'fox-news',
+               'ign',
+               'nfl-news',
+               'national-geographic'
+               ]
 
 # - API Keys
-NEWS_KEY = 'paste-key-here'
-WEATHER_KEY = 'paste-key-here'
+NEWS_KEY = '47672ad3ef5448798e93c0eaf609a3e0'
+WEATHER_KEY = 'ed7d99a2ff8547d8a72cdef84d719424'
 
 def draw_text(self, text, font_name, size, color, x, y, align="nw"):
     pg.font.init()
@@ -44,7 +50,7 @@ def draw_text(self, text, font_name, size, color, x, y, align="nw"):
 class MagicMirror:
     def __init__(self):
         pg.init()
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT), pg.FULLSCREEN)
+        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.load_data()
 
     def load_data(self):
